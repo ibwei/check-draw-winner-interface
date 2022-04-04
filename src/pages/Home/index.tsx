@@ -163,13 +163,6 @@ const Home: FunctionComponent = () => {
   // loading
   const [loading, setLoading] = React.useState<boolean>(false)
 
-  // time tick
-  const [count, setCount] = React.useState(0)
-
-  useInterval(() => {
-    setCount((c) => c + 1)
-  }, 1000)
-
   const dateCountDown: any = React.useMemo(() => {
     const startTimestampUTC = dayjs(startTime).utc().unix()
     return calculateCountdown(startTimestampUTC * 1000)
