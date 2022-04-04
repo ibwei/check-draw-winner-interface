@@ -163,10 +163,6 @@ const Home: FunctionComponent = () => {
   // loading
   const [loading, setLoading] = React.useState<boolean>(false)
 
-  const dateCountDown: any = React.useMemo(() => {
-    const startTimestampUTC = dayjs(startTime).utc().unix()
-    return calculateCountdown(startTimestampUTC * 1000)
-  }, [count])
 
   const [currentRound, setCurrentRound] = React.useState<DRAW_ROUND>(DRAW_ROUND.ROUND1)
 
