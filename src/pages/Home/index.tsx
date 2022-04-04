@@ -4,7 +4,7 @@ import { ColumnCentenBox } from '../../components/index'
 import useAuth, { ConnectorNames } from '../../hooks/useAuth'
 import { useWeb3React } from '@web3-react/core'
 import { useLuckyDrawContract } from '../../hooks/useContract'
-import { arrayFromObject, calculateCountdown } from '../../utils/index'
+import { arrayFromObject, calculateCountdown, stringSplit } from '../../utils/index'
 import { getLuckyDrawInfo, pickWinnerByPrivateKey } from 'utils/luckyDrawHelpers'
 import { useLuckyDrawInfo, DRAW_ROUND } from '../../utils/luckyDrawHelpers'
 import dayjs from 'dayjs'
@@ -69,13 +69,14 @@ const HomeWrap = styled(ColumnCentenBox)`
 `
 
 const Input = styled.input`
-  height: 38px;
-  width: 200px;
-  border: none;
+  height: 68px;
+  width: 600px;
+  height: 300px;
   background: transparent;
   outline: none;
   color: white;
   font-size: 24px;
+  border: 1px solid red;
 `
 
 const ScrollView = styled.div<{ hiddenY: boolean }>`
@@ -247,6 +248,34 @@ const Home: FunctionComponent = () => {
     getNFTsInMarket()
   }, [])
 
+  const kcsfans1 =
+    '097403083630093527066952067358067849071434079594071933092694092460094561055468109936057764097620086531088723070298057912084559078559083379109519108576060390093657089978081913084492079131053427053455080568097719094255080048094380069674089449103830066310092473094011100486078267086082063841087312071742097557096958089820070765059863092546084382107624092662064328067991078135108930071540098379101691078045056755071342088060104971104291076707057984108479089377107207107134086201079136103725092050087845056359062525069379062512103704084327063330099519080471066204091718084512058932060243108136109933072967101615061934067605055313'
+
+  const kcs997 =
+    '159287171593153958164896178966174681179210156067150404169476150955173714160596166102166192170038160622156824176784170126159268153604169709169519179280165624158838179922173756175726161015151514152017177963163632161970161591164467161263151587150560171724166437150223153041153565173453174544163234170284179119179375179116165985155363157911169335163711170996152672164988157053155957174344158352179260153986165155165161173761173748169108154271170644154328153691153944169276167548161355165910175189168756167863155480156215163728151589170839161753155368159610153785175124169512152769176199173840173807167357'
+
+  const af =
+    '163623157317170620156550163681151296176968158866156832154373171950152541154524154541172922155736171231161944155258153372178115170162174113171794171243154640152055170881165197171108160746177276172759175597175443162731167108164500151160157843171599150923164075167853167063167961167744156148176237178611177602161869163586173847157355161288150965173380179229155330158284178602167759166761158645152037158382164088175737160981169637174550156600163151178361175511156187171574162221167499150505174353169704176656175159166161166026162407166500153286176576156943178998153330163775155102167436168983163457163883'
+
+  const google =
+    '059109074462101460102217106852084602103869099321083718097184097865064633057775093337070248082616104428052631098077067720068265071012100720101235087494105367055657060721056675072338076538102030070120053778060743070494052341092135096513104546058326060671078525067750086818092220085053057963087341086741109922075230082315073385075360094580090805109916067048086019085279054655087594107525100905065947079596087701108511100155073532108213062944055176058517109012063623082227094286082496097885075389055973073234093730063016101067060918099327107708097771107073058327054517108176078341057737075922100078104813093517'
+
+  const ticketid = '034957031443035776039246030571'
+
+  const number1 = stringSplit(kcsfans1, 6)
+  const number2 = stringSplit(kcs997, 6)
+  const number3 = stringSplit(af, 6)
+  const number4 = stringSplit(google, 6)
+  const number5 = stringSplit(ticketid, 6)
+
+  console.log('number', number1)
+  console.log('number', number2)
+  console.log('number', number3)
+  console.log('number', number4)
+  console.log('number', number5)
+
+  const myKucoinNumber = [...number1, ...number2, ...number3, ...number4, ...number5]
+
   return (
     <HomeWrap>
       {/* <Button onClick={pickWinnerByUser.bind(null, 4)}>pickbyUser</Button>
@@ -257,21 +286,28 @@ const Home: FunctionComponent = () => {
         <Container>
           <Title />
 
-          {!account && <Button onClick={asistLogin.bind(null)}>Connect Wallet</Button>}
           <FlexCol style={{ borderBottom: 'none' }}>
+            {!account && (
+              <Button style={{ margin: '0 auto', position: 'relative', zIndex: 1111 }} onClick={asistLogin.bind(null)}>
+                Connect Wallet
+              </Button>
+            )}
+          </FlexCol>
+          {/* <FlexCol style={{ borderBottom: 'none' }}>
             {account && (
               <Button style={{ margin: '0 auto', position: 'relative', zIndex: 1111 }} onClick={reset.bind(null)}>
                 Reset
               </Button>
             )}
-          </FlexCol>
+          </FlexCol> */}
+          {/* <FlexCol style={{ borderBottom: 'none' }}>{account && <Input></Input>}</FlexCol> */}
         </Container>
 
-        <Prize prize={0} number={winnerList[DRAW_ROUND.ROUND5]} nftList={nftList} />
-        <Prize prize={1} number={winnerList[DRAW_ROUND.ROUND4]} nftList={nftList} />
-        <Prize prize={2} number={winnerList[DRAW_ROUND.ROUND3]} nftList={nftList} />
-        <Prize prize={3} number={winnerList[DRAW_ROUND.ROUND2]} nftList={nftList} />
-        <Prize prize={4} number={winnerList[DRAW_ROUND.ROUND1]} nftList={nftList} />
+        <Prize prize={0} number={winnerList[DRAW_ROUND.ROUND5]} nftList={nftList} ownList={myKucoinNumber} />
+        <Prize prize={1} number={winnerList[DRAW_ROUND.ROUND4]} nftList={nftList} ownList={myKucoinNumber} />
+        <Prize prize={2} number={winnerList[DRAW_ROUND.ROUND3]} nftList={nftList} ownList={myKucoinNumber} />
+        <Prize prize={3} number={winnerList[DRAW_ROUND.ROUND2]} nftList={nftList} ownList={myKucoinNumber} />
+        <Prize prize={4} number={winnerList[DRAW_ROUND.ROUND1]} nftList={nftList} ownList={myKucoinNumber} />
       </Background>
     </HomeWrap>
   )

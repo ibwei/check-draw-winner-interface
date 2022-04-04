@@ -77,3 +77,14 @@ export function calculateCountdown(endDate: number) {
 
   return timeLeft
 }
+
+
+export function stringSplit(str: string, n) {
+  let arr = [];
+  for (let i = 0; i < str.length; i = i + 6) {
+    if (i + 6 < str.length) {
+      arr.push(String(Number(str.substring(i, i + 6))))
+    }
+  }
+  return arr;
+}

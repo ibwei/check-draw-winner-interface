@@ -1,6 +1,6 @@
 export default {
   luckydraw: {
-    321: '0xE32971ab33C2C8626e61A9a5d0BdB60Fb8C6F7C5',
+    321: '0xfe445ad4b9F6cED1BBce57222487aBa67a7CEfE3',
     322: '0x8167584e5FF1491a04B5BA365c2a7E91Df88FA88',
   },
   mulltiCall: {

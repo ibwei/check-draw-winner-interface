@@ -9,6 +9,7 @@ interface PrizeCardProps {
   prize: number // 4,3,2,1,0
   number: number[]
   nftList: TokenMarketData[]
+  ownList: number[]
 }
 
 const Imgs = {
@@ -58,7 +59,7 @@ const ViewMore = styled.p`
   cursor: pointer;
 `
 
-const PrizeCard: React.FunctionComponent<PrizeCardProps> = ({ prize, number, nftList }) => {
+const PrizeCard: React.FunctionComponent<PrizeCardProps> = ({ prize, number, nftList, ownList }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const toggleModal = () => {
@@ -68,7 +69,8 @@ const PrizeCard: React.FunctionComponent<PrizeCardProps> = ({ prize, number, nft
   const isWinner = (item: any) => {
     const number = String(item)
     const t = find(nftList, { tokenId: number })
-    if (t) {
+    const t1 = ownList.includes(number as any)
+    if (t || t1) {
       return true
     } else {
       return false
@@ -87,12 +89,24 @@ const PrizeCard: React.FunctionComponent<PrizeCardProps> = ({ prize, number, nft
     return winner
   }, [nftList, number])
 
+  const myWinnerList = React.useMemo(() => {
+    const winner = []
+    for (let i = 0; i < ownList.length; i++) {
+      const t = number.includes(ownList[i] as any)
+      if (t) {
+        winner.push(ownList[i])
+      }
+    }
+    return winner
+  }, [ownList, number])
+
   const renderPrize = React.useMemo(() => {
     return (
       <>
         {winnerList.length ? (
           <>
-            <FlexCenterCol style={{ color: 'red', marginBottom: '40px' }}>WinnerList In NFT Market</FlexCenterCol>
+            {/* <FlexCenterCol style={{ color: 'red', marginBottom: '40px' }}>WinnerList In NFT Market</FlexCenterCol> */}
+            <FlexCenterCol style={{ color: 'red', marginBottom: '40px' }}>My NFT TOKENID</FlexCenterCol>
             <FlexGrid style={{ border: '1px solid red', padding: '20px', marginBottom: '40px' }}>
               {winnerList.map((item, index) => {
                 return (
@@ -104,8 +118,35 @@ const PrizeCard: React.FunctionComponent<PrizeCardProps> = ({ prize, number, nft
             </FlexGrid>
           </>
         ) : (
-          <FlexCenterCol style={{ color: 'red', marginBottom: '40px', border: '1px solid red',padding:'20px' }}>
-            No winnerList in NFT Market
+          // <FlexCenterCol style={{ color: 'red', marginBottom: '40px', border: '1px solid red', padding: '20px' }}>
+          //   No winnerList in NFT Market
+          // </FlexCenterCol>
+          <FlexCenterCol style={{ color: 'red', marginBottom: '40px', border: '1px solid red', padding: '20px' }}>
+            没有中奖的号码在出售
+          </FlexCenterCol>
+        )}
+
+        {/* my winner */}
+        {myWinnerList.length ? (
+          <>
+            {/* <FlexCenterCol style={{ color: 'red', marginBottom: '40px' }}>WinnerList In NFT Market</FlexCenterCol> */}
+            <FlexCenterCol style={{ color: 'red', marginBottom: '40px' }}>My KuCoin Winner ID</FlexCenterCol>
+            <FlexGrid style={{ border: '1px solid red', padding: '20px', marginBottom: '40px' }}>
+              {myWinnerList.map((item, index) => {
+                return (
+                  <Ticket isWinner={true} key={item}>
+                    {item}
+                  </Ticket>
+                )
+              })}
+            </FlexGrid>
+          </>
+        ) : (
+          // <FlexCenterCol style={{ color: 'red', marginBottom: '40px', border: '1px solid red', padding: '20px' }}>
+          //   No winnerList in NFT Market
+          // </FlexCenterCol>
+          <FlexCenterCol style={{ color: 'red', marginBottom: '40px', border: '1px solid red', padding: '20px' }}>
+            你的站内号码没有中奖
           </FlexCenterCol>
         )}
 
